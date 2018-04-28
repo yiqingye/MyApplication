@@ -51,33 +51,54 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     String TAG = "Main Activity";
+    public Button button;
 
     //TextView searchResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //searchResult = (TextView) findViewById(R.id.searchbar);
-        final Button refreshButton = findViewById(R.id.refresher);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
+//        final Button refreshButton = (Button) findViewById(R.id.refresher);
+//        refreshButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(final View v) {
+//                Log.d(TAG, "after click");
+//            }
+//        }
+        button = (Button) findViewById(R.id.refresher);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
-                Log.d(TAG, "after click, refresh anime results");
-//                startAPICall();
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://www.google.es"));
+                startActivity(intent);
             }
         });
+
+
+        //searchResult = (TextView) findViewById(R.id.searchbar);
+//        final Button refreshButton = findViewById(R.id.refresher);
+//        refreshButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                Log.d(TAG, "after click, refresh anime results");
+////                startAPICall();
+//            }
+//        });
     }
-    public void buttonOnclick(View v) {
-        Button button = (Button) v;
-        ((Button) v).setText("complete");
-    }
+//    public void buttonOnclick(View v) {
+//        Button button = (Button) v;
+//        ((Button) v).setText("complete");
+
 
     public void buttonOnclick1(View v) {
         double a = Math.random() * 10000000;
         int b = (int) a;
         Button button = (Button) v;
+        ImageView image3 = findViewById(R.id.imageView3);
+        ImageView image2 = findViewById(R.id.imageView4);
         if (b % 104862387 == 0) {
             ((Button) v).setText("Very Lucky");
+            image3.setVisibility(View.VISIBLE);
         } else if (b % 4 == 0) {
             ((Button) v).setText("Lucky");
         } else if (b % 3 == 0) {
@@ -86,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             ((Button) v).setText("Try again");
         } else {
             ((Button) v).setText(".....");
+            image2.setVisibility(View.VISIBLE);
         }
     }
 //   void startAPICall()
