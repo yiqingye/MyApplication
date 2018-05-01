@@ -5,48 +5,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.SearchView;
-
-import org.json.JSONObject;
-
-
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.JsonArray;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -61,15 +31,15 @@ public class MainActivity extends AppCompatActivity {
 //        final Button refreshButton = (Button) findViewById(R.id.refresher);
 //        refreshButton.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(final View v) {
-//                Log.d(TAG, "after click");
+//                log.d(TAG, "after click");
 //            }
 //        }
-        button = (Button) findViewById(R.id.refresher);
+        button = (Button) findViewById(R.id.rule);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("http://www.google.es"));
+                intent.setData(Uri.parse("https://en.wikipedia.org/wiki/Reversi"));
                 startActivity(intent);
             }
         });
@@ -94,24 +64,45 @@ public class MainActivity extends AppCompatActivity {
         double a = Math.random() * 10000000;
         int b = (int) a;
         Button button = (Button) v;
-        ImageView image3 = findViewById(R.id.imageView3);
-        ImageView image2 = findViewById(R.id.imageView4);
-        if (b % 104862387 == 0) {
+        ImageView image1 = (ImageView) findViewById(R.id.imageView);
+        image1.setImageResource(R.drawable.blank);
+        if (b % 10 == 0) {
             ((Button) v).setText("Very Lucky");
-            image3.setVisibility(View.VISIBLE);
+            image1.setImageResource(R.drawable.pikachu);
         } else if (b % 4 == 0) {
             ((Button) v).setText("Lucky");
+            image1.setImageResource(R.drawable.asmile);
         } else if (b % 3 == 0) {
             ((Button) v).setText("normal");
+            image1.setImageResource(R.drawable.pikachu);
         } else if (b % 2 == 0) {
             ((Button) v).setText("Try again");
         } else {
-            ((Button) v).setText(".....");
-            image2.setVisibility(View.VISIBLE);
+            ((Button) v).setText("Surprise");
+            image1.setImageResource(R.drawable.horror);
         }
     }
-//   void startAPICall()
-//        }
+
+    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+            Request.Method.GET,
+            "http://thecatapi.com/api/",
+            null,
+            new Response.Listener<JSONArray>() {
+                public void onResponse(JsonArray response) {
+
+                }
+            }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.w(TAG, error.toString());
+        }
+    });
+
+
+
+
+//   void startAPICall(String cat) {
+//
 //            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 //                    Request.Method.GET,
 //                    "http://api.jikan.me/",
@@ -131,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
+//
 //    }
 
 
