@@ -8,18 +8,22 @@ import android.widget.Button;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.JsonArray;
+import com.android.volley.RequestQueue;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Scanner;
+
 
 public class MainActivity extends AppCompatActivity {
+    private RequestQueue requestQueue;
     String TAG = "Main Activity";
     public Button button;
 
@@ -82,48 +86,56 @@ public class MainActivity extends AppCompatActivity {
             image1.setImageResource(R.drawable.horror);
         }
     }
+    public void doSomething(View v) {
+        Scanner input = new Scanner(System.in);
+        String anime1 = input.nextLine();
+        startAPICall("anime");
+        TextView view3 = (TextView) findViewById(R.id.textView3);
+        view3.setText()
+    }
 
-    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-            Request.Method.GET,
-            "http://thecatapi.com/api/",
-            null,
-            new Response.Listener<JSONArray>() {
-                public void onResponse(JsonArray response) {
-
-                }
-            }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            Log.w(TAG, error.toString());
-        }
-    });
-
-
-
-
-//   void startAPICall(String cat) {
+//    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+//            Request.Method.GET,
+//            "http://thecatapi.com/api/",
+//            null,
+//            new Response.Listener<JSONArray>() {
+//                public void onResponse(JsonArray response) {
 //
-//            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-//                    Request.Method.GET,
-//                    "http://api.jikan.me/",
-//                    null,
-//                    new Response.Listener<JSONObject>() {
-//                        @Override
-//                        public void onResponse(final JSONObject response) {
-//                            Log.d(TAG, response.toString());
-//                        }
-//                    }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(final VolleyError error) {
-//                    Log.w(TAG, error.toString());
 //                }
-//            });
-//            requestQueue.add(jsonObjectRequest);
-//        } catch (Exception e) {
-//            e.printStackTrace();
+//            }, new Response.ErrorListener() {
+//        @Override
+//        public void onErrorResponse(VolleyError error) {
+//            Log.w(TAG, error.toString());
 //        }
-//
-//    }
+//    });
+
+
+
+
+   void startAPICall(String anime) {
+        try{
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.GET,
+                    "http://kitsu.io/api/edge" + anime,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(final JSONObject response) {
+                            Log.d(TAG, response.toString());
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    Log.v(TAG, error.toString());
+                }
+            });
+            requestQueue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 }
